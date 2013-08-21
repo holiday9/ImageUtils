@@ -1,10 +1,11 @@
 package com.htyuan.main;
 
-import android.os.Bundle;
 import android.app.Activity;
-import android.view.Menu;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements View.OnClickListener{
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -13,10 +14,11 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+	public void onClick(View v) {
+		if (v.getId() == R.id.circle) {
+			Intent intent = new Intent(this, CircleImageActivity.class);
+			startActivity(intent);
+		}
 	}
 
 }
