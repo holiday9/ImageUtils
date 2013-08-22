@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
      >
 
-    <ImageView
+    <com.aibang.widgets.CircleImageView
         android:id="@+id/img"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

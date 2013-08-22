@@ -56,7 +56,7 @@ public class ImageUtils {
 	 * @param bitmap
 	 * @return
 	 */
-	public Bitmap toRoundBitmap(Bitmap bitmap) {
+	public static Bitmap toRoundBitmap(Bitmap bitmap) {
 		int width = bitmap.getWidth();
 		int height = bitmap.getHeight();
 		float roundPx;
