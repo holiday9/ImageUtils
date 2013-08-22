@@ -67,8 +67,8 @@ public class CircleImageView extends ImageView{
 			return;
 		}
 		
-//		int i = canvas.saveLayer(0.0F, 0.0F, getWidth(), getHeight(), null,
-//				31);
+		int i = canvas.saveLayer(0.0F, 0.0F, getWidth(), getHeight(), null,
+				31); 
 		localDrawable.setBounds(0, 0, getWidth(), getHeight());
 		localDrawable.draw(canvas);
 		
