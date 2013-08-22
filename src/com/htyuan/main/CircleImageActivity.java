@@ -24,7 +24,7 @@ public class CircleImageActivity extends Activity implements View.OnClickListene
 	}
 
 	private void setImageView() {
-		InputStream is = getResources().openRawResource(R.drawable.icon_qq_blog);  
+		InputStream is = getResources().openRawResource(R.drawable.icon);  
 		Bitmap srbm = BitmapFactory.decodeStream(is); 
 		Bitmap dsbm = ImageUtils.getRoundedCornerBitmap(srbm, 2);
 		mImageView.setImageBitmap(dsbm);

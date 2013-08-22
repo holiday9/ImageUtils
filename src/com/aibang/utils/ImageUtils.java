@@ -5,6 +5,7 @@ import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.PorterDuff.Mode;
+import android.graphics.AvoidXfermode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
@@ -32,16 +33,16 @@ public class ImageUtils {
 		//draw a round rect
 		final Paint paint = new Paint();
 		paint.setAntiAlias(true);
-		final Rect rect1 = new Rect(10, 10, w - 10, h - 10);
+		final Rect rect1 = new Rect(0, 0, w, h);
 		final RectF rectF = new RectF(rect1);
-		float rx = rectF.left + (rectF.right - rectF.left) / 2;
-		float ry = rectF.top + (rectF.bottom - rectF.top) / 2;
+		float rx = w / ratio;
+		float ry = h / ratio;
 		canvas.drawRoundRect(rectF, rx,
 				ry , paint);
 
 		//draw bitmap with Mode.SRC_IN
 		final Rect rect = new Rect(0, 0, w, h);
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		paint.setXfermode(new PorterDuffXfermode(Mode.SCREEN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 		
 		return output;
