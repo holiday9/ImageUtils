@@ -1,10 +1,14 @@
 package com.htyuan.main;
 
 import java.io.File;
+import java.net.URI;
+import java.util.List;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.aibang.abbus.util.CameraTools;
 import com.aibang.abbus.util.UIUtils;
@@ -30,16 +35,18 @@ public class TakePicsActivity extends Activity implements View.OnClickListener {
 		mImageView = (ImageView) findViewById(R.id.img);
 	}
 
+	//    /storage/emulated/0/DCIM/Camera/20140818_184744.jpg
 	@Override
 	public void onClick(View v) {
-		doTakePhoto();
+//		doTakePhoto();
+		doPickPhotoFromGallery();
 	}
 
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (requestCode != Activity.RESULT_OK) {
-			return ;
+		if (resultCode != Activity.RESULT_OK) {
+			return;
 		}
-		
+
 		// 拍照
 		if (requestCode == CameraTools.CAMERA_WITH_DATA) {
 			// 设置文件保存路径这里放在跟目录下
@@ -47,27 +54,58 @@ public class TakePicsActivity extends Activity implements View.OnClickListener {
 					+ "/temp.jpg");
 			startPhotoZoom(Uri.fromFile(picture));
 		}
-		if (requestCode == CameraTools.CAMERA_WITH_CROP) {
-			Bitmap bmp = data.getParcelableExtra("data");
-			if (bmp != null)
-				mImageView.setImageBitmap(bmp);
+
+		if (requestCode == CameraTools.PHOTO_PICKED_WITH_DATA) {
+			String path = CameraTools.getImagePath(requestCode, data, this);
+			System.out.println(path);
+			
+			File file = new File(path);
+			if (file.exists()) {
+				System.out.println("图片存在");
+			} else {
+				System.out.println("图片不存在");
+			}
+			startPhotoZoom(Uri.fromFile(file));  // Uri.parse(path)会报错．原因：查看Uri.fromFile(file)的注释．
 		}
 
-		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == CameraTools.CAMERA_WITH_CROP) {
+			Bitmap bmp = data.getParcelableExtra("data");
+			setImageView(bmp);
+		}
+	}
+
+	protected void setImageView(Bitmap bmp) {
+		if (bmp != null)
+			mImageView.setImageBitmap(bmp);
 	}
 
 	public void startPhotoZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
 		intent.setDataAndType(uri, "image/*");
 		intent.putExtra("crop", "true");
-		// aspectX aspectY 是宽高的比例
+		intent.putExtra("return-data", true);
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
-		// outputX outputY 是裁剪图片宽高
 		intent.putExtra("outputX", 160);
 		intent.putExtra("outputY", 160);
-		intent.putExtra("return-data", true);
 		startActivityForResult(intent, CameraTools.CAMERA_WITH_CROP);
+	}
+
+	protected Uri getTempUri() {
+		return Uri.fromFile(getTempFile());
+	}
+
+	private String camera_crop_temp_file = "corp.jpg";
+
+	protected File getTempFile() {
+		File f = new File(Environment.getExternalStorageDirectory(),
+				camera_crop_temp_file);
+		try {
+			f.createNewFile();
+		} catch (Exception e) {
+			Toast.makeText(this, "SD临时文件读取错误！", Toast.LENGTH_LONG).show();
+		}
+		return f;
 	}
 
 	private void doPickPhotoFromGallery() {
