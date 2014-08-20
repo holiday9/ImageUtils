@@ -2,7 +2,7 @@ package com.htyuan.main;
 
 import java.io.InputStream;
 
-import com.aibang.utils.ImageUtils;
+import com.aibang.abbus.util.ImageUtils;
 
 import android.app.Activity;
 import android.graphics.Bitmap;

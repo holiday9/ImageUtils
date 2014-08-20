@@ -18,6 +18,9 @@ public class MainActivity extends Activity implements View.OnClickListener{
 		if (v.getId() == R.id.circle) {
 			Intent intent = new Intent(this, CircleImageActivity.class);
 			startActivity(intent);
+		} else if (v.getId() == R.id.take_pic) {
+			Intent intent = new Intent(this, TakePicsActivity.class);
+			startActivity(intent);
 		}
 	}
 

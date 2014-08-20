@@ -22,9 +22,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-                <activity
+        <activity
             android:name="com.htyuan.main.CircleImageActivity"
             android:label="circle activity" >
+        </activity>
+        
+        <activity
+            android:name="com.htyuan.main.TakePicsActivity"
+            android:label="take a pictures activity" >
         </activity>
     </application>
 

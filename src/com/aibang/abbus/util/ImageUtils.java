@@ -1,4 +1,4 @@
-package com.aibang.utils;
+package com.aibang.abbus.util;
 
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.Config;
